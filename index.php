@@ -18,9 +18,11 @@
 		<tr><td>
 			<div class="card">
 				<div onclick="shq.cmenu(event)">
-					<a href="#" class="CPU">CPU</a>
-					<a href="#" class="memory">内存</a>
-					<a href="#" class="disk">磁盘</a>
+					<a href="#" id="cpu" class="CPU">CPU</a>
+					<a href="#" id="memory" class="memory">内存</a>
+					<a href="#" id="disk" class="disk">磁盘</a>
+					<a href="#" id="serviceCpu" class="serviceCpu">服务CPU占用</a>
+					<a href="#" id="serviceMemory" class="serviceMemory">服务内存占用</a>
 				</div><div ID = "content" class="content">请选择类型</div>
 			</div>
 		</td></tr>
@@ -34,14 +36,26 @@
 	        if(/a/i.test(e.tagName)){
 	        e.parentNode.className=e.className;
 	        var ip=document.getElementById("ip").value;
-	        if(e.innerHTML == 'CPU'){
+	        if(e.id == 'cpu'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-		        var url = "/monitor/man.php?type=" + e.innerHTML + "&ip=" + ip;
+		        var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
 				ajax(url);
-		    }else if(e.innerHTML == '内存'){
-		    	e.parentNode.nextSibling.innerHTML='2'
-			}else if(e.innerHTML == '磁盘'){
-				e.parentNode.nextSibling.innerHTML='3'
+		    }else if(e.id == 'memory'){
+	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
+			    var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+				ajax(url);
+			}else if(e.id == 'disk'){
+	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
+				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+				ajax(url);
+			}else if(e.id == 'serviceCpu'){
+	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
+					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+					ajax(url);
+			}else if(e.id == 'serviceMemory'){
+	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
+					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+					ajax(url);
 			}
 
 	        e.parentNode.nextSibling.style.cssText='border-top:none';

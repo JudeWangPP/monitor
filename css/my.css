@@ -14,7 +14,7 @@ div.card a {
 	font-size: 28px;
 	text-decoration: none;
 	float: left;
-	width: 33%;
+	width: 19%;
 	text-align: center;
 	background-color: white;
 	margin-right: 1px;
@@ -29,6 +29,12 @@ div.card div.memory a.memory {
 }
 
 div.card div.disk a.disk {
+	font: normal normal bold 28px/1.5 宋体;
+}
+div.card div.serviceCpu a.serviceCpu {
+	font: normal normal bold 28px/1.5 宋体;
+}
+div.card div.serviceMemory a.serviceMemory {
 	font: normal normal bold 28px/1.5 宋体;
 }
 

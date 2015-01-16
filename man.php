@@ -1,6 +1,6 @@
 <?php
 require_once "class.SSH2Opt.php";
-if($_GET["type"]=="CPU"){
+if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
 	$command="cat /proc/cpuinfo";
 	try{
@@ -14,6 +14,63 @@ if($_GET["type"]=="CPU"){
 	}
 
 }
+else if($_GET["type"]=="memory"){
+	$ip=$_GET["ip"];
+	$command="free";
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,$command);
+		foreach ($var as $va){
+			echo $va."<br/>";
+		}
+	}catch(PDOException $e){
+		echo "查询 $ip 失败";
+	}
+
+}
+else if($_GET["type"]=="disk"){
+	$ip=$_GET["ip"];
+	$command="df -l";
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,$command);
+		foreach ($var as $va){
+			echo $va."<br/>";
+		}
+	}catch(PDOException $e){
+		echo "查询 $ip 失败";
+	}
+
+}
+else if($_GET["type"]=="serviceCpu"){
+	$ip=$_GET["ip"];
+	$command="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head";
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,$command);
+		foreach ($var as $va){
+			echo $va."<br/>";
+		}
+	}catch(PDOException $e){
+		echo "查询 $ip 失败";
+	}
+
+}
+else if($_GET["type"]=="serviceMemory"){
+	$ip=$_GET["ip"];
+	$command="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head";
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,$command);
+		foreach ($var as $va){
+			echo $va."<br/>";
+		}
+	}catch(PDOException $e){
+		echo "查询 $ip 失败";
+	}
+
+}
+
 else if($_GET["action"]=="select"){
 	$rule="";
 	if(isset($_POST["channel_number"])&&$_POST["channel_number"]!="")
