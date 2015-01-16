@@ -18,7 +18,7 @@
 		<tr><td>
 			<div class="card">
 				<div onclick="shq.cmenu(event)">
-					<a href="#" id="cpu" class="CPU">CPU</a>
+					<a href="#" id="cpu" class="CPU">处理器</a>
 					<a href="#" id="memory" class="memory">内存</a>
 					<a href="#" id="disk" class="disk">磁盘</a>
 					<a href="#" id="service" class="service">服务</a>
@@ -27,7 +27,7 @@
 			</div>
 		</td></tr>
 	</table>
-	
+Mysql主从同步检查
 <script type="text/javascript">
 	var shq={}
 	shq.cmenu=function(e)

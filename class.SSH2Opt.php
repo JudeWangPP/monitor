@@ -13,12 +13,11 @@ class SSH2Opt extends SSH2Conn{
 			while($line = fgets($stream)) {
 				flush();
 // 				echo $line."<br />";
-// 				echo gettype($line);
 				array_push($result, $line);
 			}
  			return $result;
  		}catch(PDOException $e){
- 			echo "insertChannel() failed:".$e->getMessage();
+ 			echo "ssh2Exec() failed:".$e->getMessage();
  			return false;
  		}	
 	}
