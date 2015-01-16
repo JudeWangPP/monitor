@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+div.card div {
+	background-color: #FF8000;
+	float: left;
+	padding: 1px;
+	padding-bottom: 0;
+	clear: both;
+	width: 100%;
+}
+
+div.card a {
+	color: black;
+	font-size: 28px;
+	text-decoration: none;
+	float: left;
+	width: 33%;
+	text-align: center;
+	background-color: white;
+	margin-right: 1px;
+}
+
+div.card div.CPU a.CPU {
+	font: normal normal bold 28px/1.5 宋体;
+}
+
+div.card div.memory a.memory {
+	font: normal normal bold 28px/1.5 宋体;
+}
+
+div.card div.disk a.disk {
+	font: normal normal bold 28px/1.5 宋体;
+}
+
+div.card div.content {
+	background-color: white;
+	border: 1px solid #ff8000;
+	height: 100%;
+	min-height:200px;
+}
