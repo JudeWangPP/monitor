@@ -31,10 +31,10 @@ div.card div.memory a.memory {
 div.card div.disk a.disk {
 	font: normal normal bold 28px/1.5 宋体;
 }
-div.card div.serviceCpu a.serviceCpu {
+div.card div.service a.service {
 	font: normal normal bold 28px/1.5 宋体;
 }
-div.card div.serviceMemory a.serviceMemory {
+div.card div.diy a.diy {
 	font: normal normal bold 28px/1.5 宋体;
 }
 
@@ -42,5 +42,5 @@ div.card div.content {
 	background-color: white;
 	border: 1px solid #ff8000;
 	height: 100%;
-	min-height:200px;
+	min-height:500px;
 }

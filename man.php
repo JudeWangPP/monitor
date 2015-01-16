@@ -42,12 +42,19 @@ else if($_GET["type"]=="disk"){
 	}
 
 }
-else if($_GET["type"]=="serviceCpu"){
+else if($_GET["type"]=="service"){
 	$ip=$_GET["ip"];
 	$command="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head";
+	$command1="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head";
 	try{
 		$opt=new SSH2Opt();
+		echo "占用CPU前10的服务<hr/>";
 		$var = $opt->ssh2Exec($ip,$command);
+		foreach ($var as $va){
+// 			echo $va."<br/>";
+		}
+		echo "占用内存前10的服务<hr/>";
+		$var = $opt->ssh2Exec($ip,$command1);
 		foreach ($var as $va){
 			echo $va."<br/>";
 		}
@@ -56,18 +63,8 @@ else if($_GET["type"]=="serviceCpu"){
 	}
 
 }
-else if($_GET["type"]=="serviceMemory"){
-	$ip=$_GET["ip"];
-	$command="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head";
-	try{
-		$opt=new SSH2Opt();
-		$var = $opt->ssh2Exec($ip,$command);
-		foreach ($var as $va){
-			echo $va."<br/>";
-		}
-	}catch(PDOException $e){
-		echo "查询 $ip 失败";
-	}
+else if($_GET["type"]=="diy"){
+	echo "<iframe src='diy.php' frameborder='0' width='100%' height='500px'></iframe>";
 
 }
 

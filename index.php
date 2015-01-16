@@ -21,8 +21,8 @@
 					<a href="#" id="cpu" class="CPU">CPU</a>
 					<a href="#" id="memory" class="memory">内存</a>
 					<a href="#" id="disk" class="disk">磁盘</a>
-					<a href="#" id="serviceCpu" class="serviceCpu">服务CPU占用</a>
-					<a href="#" id="serviceMemory" class="serviceMemory">服务内存占用</a>
+					<a href="#" id="service" class="service">服务</a>
+					<a href="#" id="diy" class="diy">自助</a>
 				</div><div ID = "content" class="content">请选择类型</div>
 			</div>
 		</td></tr>
@@ -48,11 +48,11 @@
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
 				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
 				ajax(url);
-			}else if(e.id == 'serviceCpu'){
+			}else if(e.id == 'service'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
 					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
 					ajax(url);
-			}else if(e.id == 'serviceMemory'){
+			}else if(e.id == 'diy'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
 					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
 					ajax(url);
