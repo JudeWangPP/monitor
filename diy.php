@@ -42,6 +42,7 @@
 			if (!confirm(msg)) {
 	            return 
 	        }
+			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
 			$.get("man.php?type=rm",{ip:$("#ip").val(),deldir:$("#delDir").val()},function(data){
 				if(data == ''){
 					$("td[data_tip='delRes']").html("<font size='1' color='green'>执行删除命令成功!</font>");
@@ -54,6 +55,7 @@
 		$("#execMlBut").click(function(e){
 			$("#execRes").html("执行中。。。");
 			$("#execMl").select();  //下次输入不用先删除本次内容
+			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
 			$.get("man.php?type=exec",{ip:$("#ip").val(),execml:$("#execMl").val()},function(data){
 				if(data == ''){
 					$("#execRes").html("命令不正确或者命令无返回结果");

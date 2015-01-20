@@ -37,23 +37,23 @@ Mysql主从同步检查
 	        var ip=document.getElementById("ip").value;
 	        if(e.id == 'cpu'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-		        var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+		        var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 		    }else if(e.id == 'memory'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-			    var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+			    var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 			}else if(e.id == 'disk'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 			}else if(e.id == 'service'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
 					ajax(url);
 			}else if(e.id == 'diy'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip;
+					var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
 					ajax(url);
 			}
 
