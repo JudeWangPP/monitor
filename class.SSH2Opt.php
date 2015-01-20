@@ -12,7 +12,6 @@ class SSH2Opt extends SSH2Conn{
 	 		stream_set_blocking($stream, true);
 			while($line = fgets($stream)) {
 				flush();
-// 				echo $line."<br />";
 				array_push($result, $line);
 			}
  			return $result;
@@ -24,28 +23,30 @@ class SSH2Opt extends SSH2Conn{
 	/**
 	 * 更新一个渠道
 	 */
-	public function updateOneChannelNumber($id,$data){
-		$conn=parent::getConn();
+	public function ssh2Shell($host,$cmds){  //主机名称   和  命令数组
+		$conn=parent::getConn($host);
+		try{
+			$out = '';
+			$shell = ssh2_shell($conn);
+			usleep(500000); // sleep 0.5 seconds
+			for ($i = 0; $i < count($cmds); $i ++) {
+				fwrite($shell, $cmds[$i] . PHP_EOL);
+				usleep(200000); // sleep 0.2 seconds
+				while ($buffer = fgets($shell)) {
+					flush();
+					$out .= $buffer;
+				}
+			}
+			return $out;
+		}catch(PDOException $e){
+			echo "ssh2Exec() failed:".$e->getMessage();
+			return false;
+		}
 
- 		$sql="UPDATE channel_number Set channel_name=:channel_name,bd=:bd, " .
- 			" has_sdk=:has_sdk,description=:description ".
- 			" where id=:id ";
- 		try{
- 			$st=$conn->prepare($sql);
- 			$st->bindValue(":id",$id,PDO::PARAM_INT);
- 			$st->bindValue(":channel_name",$data["channel_name"],PDO::PARAM_STR);
- 			$st->bindValue(":bd",$data["bd"],PDO::PARAM_STR);
- 			$st->bindValue(":has_sdk",$data["has_sdk"],PDO::PARAM_STR);
- 			$st->bindValue(":description",$data["description"],PDO::PARAM_STR);
- 			$st->execute();
- 			return true;
- 		}catch(PDOException $e){
- 			echo "updateOneChannelNumber():".$e->getMessage();
- 			return false;
- 		}			
 	}
 }
 // 	$opt = new SSH2Opt();
-// 	$val = $opt->ssh2Exec('192.168.14.99','sudo ll');
-// 	print_r($val);
+// 	$val = $opt->ssh2Shell('192.168.14.99',array('cd /','pwd','free'));
+// 	print_r(array('cd /','pwd','ll'));
+// 	echo "<pre>".$val."</pre>";
 ?>

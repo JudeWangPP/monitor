@@ -24,9 +24,9 @@
 		</tr>
 		<tr height = "60">
 			<td align = "right">执行常用简单的Linux命令:</td>
-			<td><input id="execMl" type="text" value="pwd" maxlength="30"></td>
+			<td><input id="execMl" type="text" value="cd / ; ll" maxlength="300"></td>
 			<td><input id="execMlBut" type="button" value="执行" class="but"></td>
-			<td><font size='1' color='grey'>该功能没有任何限制，请谨慎使用。</font></td>
+			<td><font size='1' color='grey'>可同时输入多个关联命令</font></td>
 		</tr>
 	</table>
 	<div>执行结果:</div>

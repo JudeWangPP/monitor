@@ -101,18 +101,17 @@ else if($_GET["type"]=="rm"){
 else if($_GET["type"]=="exec"){
 	$ip=$_GET["ip"];
 	$command=$_GET["execml"];
-	if($command == "vim" || $command == "/bin"|| $command == "/sbin"){ //系统安全不能删除的目录
-		echo "不能执行高级交互命令！";
-	}else{
-		try{
-			$opt=new SSH2Opt();
-			$var = $opt->ssh2Exec($ip,$command);
-			foreach ($var as $va){
-				echo $va."<br/>";
-			}
-		}catch(PDOException $e){
-			echo "在$ip上  执行删除 失败";
-		}
+	if(substr($command, -1) == ";"){
+		$command = substr($command,0,strlen($command)-1);
+	}
+	$cmds=explode(';',$command); 
+	print_r($cmds);
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Shell($ip,$cmds);
+		echo "<pre>".$var."</pre>";
+	}catch(PDOException $e){
+		echo "在$ip上  执行删除 失败";
 	}
 }
 
