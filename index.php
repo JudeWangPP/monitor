@@ -14,7 +14,7 @@
 <body>
 	<table style = "width:100%;min-width:650px">
 		<tr><td><h2>套外linux机器基础性能检查</h2></td></tr>
-		<tr><td>查询IP: <input id="ip" type="text" value = "192.168.14.99" maxlength="15" ></td></tr>
+		<tr><td>查询IP: <input id="ip" class= "editbox" type="text" value = "192.168.14.99" maxlength="15" ></td></tr>
 		<tr><td>
 			<div class="card">
 				<div onclick="shq.cmenu(event)">

@@ -53,10 +53,10 @@ else if($_GET["type"]=="memory"){
 		echo "<table class='imagetable'>";
 		echo "<tr><th></th><th>内存总数</th><th>已使用</th><th>空闲内存</th><th>已经废弃</th><th>Buffer缓存内存数</th><th>Page缓存内存</th></tr>";
 		echo "<tr><th>内存</th><td>".$value[2]."M</td><td>".$value[3]."M</td><td>".$value[5]."M</td><td>".$value[7]."M</td><td>".$value[9]."M</td><td>".$value[11]."M</td></tr>";
-		$value=explode('    ',$var[2]);
-		echo "<tr><th>缓存内存</th><td>".$value[1]."M</td><td>".$value[3]."M</td><td></td><td></td><td></td><td></td></tr>";
-		$value=explode('    ',$var[3]);
-		echo "<tr><th>".$value[0]."</th><td>".$value[2]."M</td><td>".$value[4]."M</td><td>".$value[5]."M</td><td></td><td></td><td></td></tr>";
+// 		$value=explode('    ',$var[2]);
+// 		echo "<tr><th>缓存内存</th><td>".$value[1]."M</td><td>".$value[3]."M</td><td></td><td></td><td></td><td></td></tr>";
+// 		$value=explode('    ',$var[3]);
+// 		echo "<tr><th>".$value[0]."</th><td>".$value[2]."M</td><td>".$value[4]."M</td><td>".$value[5]."M</td><td></td><td></td><td></td></tr>";
 		echo "</table>";
 
 	}catch(PDOException $e){
@@ -66,13 +66,23 @@ else if($_GET["type"]=="memory"){
 }
 else if($_GET["type"]=="disk"){
 	$ip=$_GET["ip"];
-	$command="df -l";
+	$command="df -l -m";
 	try{
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Exec($ip,$command);
-		foreach ($var as $va){
-			echo $va."<br/>";
+		echo "<table class='imagetable'>";
+		echo "<tr><th>文件系统</th><th>总计（M）</th><th>已用（M）</th><th>可用（M）</th><th>已用（%）</th><th>挂载点</th></tr>";
+		for ($i=1;$i<count($var);$i++){
+			$value=explode(' ',$var[$i]);
+			echo "<tr>";
+			foreach($value as $val){
+				if($val != ''){
+					echo "<td>".$val."</td>";
+				}
+			}
+			echo "</tr>";
 		}
+		echo "</table>";
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
 	}
