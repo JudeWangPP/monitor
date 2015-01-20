@@ -18,13 +18,13 @@
 	<table>
 		<tr>
 			<td>删除指定目录下所有文件:</td>
-			<td><input id="delDir" type="text" value="/home/tester/deltest/" maxlength="30"></td>
+			<td><input id="delDir" class= "editbox" type="text" value="/home/tester/deltest/" maxlength="30"></td>
 			<td><input id="delDirBut" type="button" value="删除" class="but"></td>
 			<td data_tip="delRes"></td>
 		</tr>
 		<tr height = "60">
 			<td align = "right">执行常用简单的Linux命令:</td>
-			<td><input id="execMl" type="text" value="cd / ; ll" maxlength="300"></td>
+			<td><input id="execMl" class= "editbox" type="text" value="cd / ; ll" maxlength="300"></td>
 			<td><input id="execMlBut" type="button" value="执行" class="but"></td>
 			<td><font size='1' color='grey'>可同时输入多个关联命令</font></td>
 		</tr>

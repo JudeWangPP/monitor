@@ -105,7 +105,6 @@ else if($_GET["type"]=="exec"){
 		$command = substr($command,0,strlen($command)-1);
 	}
 	$cmds=explode(';',$command); 
-	print_r($cmds);
 	try{
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Shell($ip,$cmds);

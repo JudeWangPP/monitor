@@ -52,4 +52,15 @@ div.card div.content {
 	border:1px solid #ccc;
 	color:#FFF;
 }
+.editbox{
+    background: #EEEEEE;
+    border: 1px solid #b7b7b7;
+    color: #003366;
+    cursor: text;
+    font-family: "楷体";
+    font-size: 14pt;
+    height: 20px;
+	width:200px;
+    padding: 2px; /*www.52css.com*/
+}
 	
