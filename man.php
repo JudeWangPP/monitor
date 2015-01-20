@@ -4,16 +4,34 @@ if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
 	$command="cat /proc/cpuinfo";
 	try{
+		echo "基础信息：";
 		echo "<table class='imagetable'>";
 		$opt=new SSH2Opt();
-		$var = $opt->ssh2Exec($ip,"cat /proc/cpuinfo |grep processor|wc -l");
-		echo "<tr><td>逻辑CPU的个数</td><td>$var[0]</td></tr>";
-// 		print_r($var);
 		$var = $opt->ssh2Exec($ip,$command);
-		foreach ($var as $va){
-// 			echo $va."<br/>";
-			echo "<tr><td>$va</td></tr>";
+		$strs = '';
+		foreach ($var as $va){ //将数组 字符串化，用于做统计
+			$strs = $strs.$va;
 		}
+		echo "<tr><td>物理CPU的个数</td><td>".substr_count($strs,'physical id')." 个</td></tr>";
+		echo "<tr><td>逻辑CPU的个数</td><td>".substr_count($strs,'processor')." 个</td></tr>";
+		$va = explode(':',$var[4]);
+		echo "<tr><td>CPU型号</td><td>".$va[1]."</td></tr>";
+		$va = explode(':',$var[6]);
+		echo "<tr><td>CPU的主频</td><td>".$va[1]." MHz</td></tr>";
+		$va = explode(':',$var[7]);
+		echo "<tr><td>CPU的缓存</td><td>".$va[1]."</td></tr>";
+		echo "</table>";
+		
+		echo "<br/>使用信息：";
+		echo "<table class='imagetable'>";
+		$var = $opt->ssh2Exec($ip,"mpstat");
+		$value=explode(' ',$var[3]);
+		echo "<tr><th>统计方式</th><th>".$value[3]."</th></tr>";
+		echo "<tr><td>总使用率</td><td>".$value[7]."%</td></tr>";
+		echo "<tr><td>系统使用</td><td>".$value[15]."%</td></tr>";
+		echo "<tr><td>IO等待</td><td>".$value[19]."%</td></tr>";
+		echo "<tr><td>软件使用</td><td>".$value[27]."%</td></tr>";
+		echo "<tr><td>剩余</td><td>".$value[38]."%</td></tr>";
 		echo "</table>";
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
@@ -22,13 +40,25 @@ if($_GET["type"]=="cpu"){
 }
 else if($_GET["type"]=="memory"){
 	$ip=$_GET["ip"];
-	$command="free";
+	$command="free -m";
 	try{
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Exec($ip,$command);
-		foreach ($var as $va){
-			echo $va."<br/>";
-		}
+		
+		$value=explode('    ',$var[1]);
+		echo "<table class='imagetable'>";
+		echo "<tr><th>内存总使用率</th><td>".round($value[3]/$value[2]*100,2)."%</td>";
+		echo "</table><br/>";
+		
+		echo "<table class='imagetable'>";
+		echo "<tr><th></th><th>内存总数</th><th>已使用</th><th>空闲内存</th><th>已经废弃</th><th>Buffer缓存内存数</th><th>Page缓存内存</th></tr>";
+		echo "<tr><th>内存</th><td>".$value[2]."M</td><td>".$value[3]."M</td><td>".$value[5]."M</td><td>".$value[7]."M</td><td>".$value[9]."M</td><td>".$value[11]."M</td></tr>";
+		$value=explode('    ',$var[2]);
+		echo "<tr><th>缓存内存</th><td>".$value[1]."M</td><td>".$value[3]."M</td><td></td><td></td><td></td><td></td></tr>";
+		$value=explode('    ',$var[3]);
+		echo "<tr><th>".$value[0]."</th><td>".$value[2]."M</td><td>".$value[4]."M</td><td>".$value[5]."M</td><td></td><td></td><td></td></tr>";
+		echo "</table>";
+
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
 	}
@@ -58,13 +88,11 @@ else if($_GET["type"]=="service"){
 		$var = $opt->ssh2Exec($ip,$command);
 		foreach ($var as $va){
 			echo $va."<br/>";
-			break;
 		}
 		echo "<br/><hr/>占用内存前10的服务<br/>";
 		$var = $opt->ssh2Exec($ip,$command1);
 		foreach ($var as $va){
 			echo $va."<br/>";
-			break;
 		}
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";

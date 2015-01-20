@@ -46,7 +46,7 @@ class SSH2Opt extends SSH2Conn{
 	}
 }
 // 	$opt = new SSH2Opt();
-// 	$val = $opt->ssh2Shell('192.168.14.99',array('cd /','pwd','free'));
-// 	print_r(array('cd /','pwd','ll'));
-// 	echo "<pre>".$val."</pre>";
+// 	$val = $opt->ssh2Exec('192.168.14.99',"mpstat");
+// 	print_r($val);
+// // 	echo "<pre>".$val."</pre>";
 ?>
