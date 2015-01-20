@@ -30,6 +30,6 @@ class SSH2Conn{
 //  		flush();
 //  		echo $line."<br />";
 //  	}
- 	
+
 }
 ?>

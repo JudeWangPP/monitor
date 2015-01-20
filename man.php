@@ -70,37 +70,50 @@ else if($_GET["type"]=="diy"){
 	echo "<iframe src='diy.php?ip=$ip' frameborder='0' width='100%' height='500px'></iframe>";
 
 }
-
-else if($_GET["action"]=="select"){
-	$rule="";
-	if(isset($_POST["channel_number"])&&$_POST["channel_number"]!="")
-		$rule.=" and c.channel_number like '%{$_POST["channel_number"]}%' ";
-	if(isset($_POST["channel_name"])&&$_POST["channel_name"]!="")
-		$rule.=" and c.channel_name like '%{$_POST["channel_name"]}%' ";
-	if(isset($_POST["bd"])&&$_POST["bd"]!="")
-		$rule.=" and c.bd like '%{$_POST["bd"]}%' ";
-	if(isset($_POST["promotion_team"])&&$_POST["promotion_team"]!="")
-		$rule.=" and c.promotion_number= '{$_POST["promotion_team"]}'";
-	if(isset($_POST["payment_method"])&&$_POST["payment_method"]!="")
-		$rule.=" and c.payment_number='{$_POST["payment_method"]}' ";
-	if(isset($_POST["cooperation_mode"])&&$_POST["cooperation_mode"]!="")
-		$rule.=" and c.cooperation_number= '{$_POST["cooperation_mode"]}'";
-	if(isset($_POST["version_type"])&&$_POST["version_type"]!="")
-		$rule.=" and c.version_number= '{$_POST["version_type"]}'";
-	if(isset($_POST["has_sdk"])&&$_POST["has_sdk"]!="")
-		$rule.=" and c.has_sdk= '{$_POST["has_sdk"]}'";
-	
-	$db=new ChannelDB();
-	$rows=$db->selectChannelNumbers($rule);
-	$datas = array();
-	$data = array();
-	foreach($rows as $row){
-		for($i=1;$i<7;$i++){ 
-			$data[$i-1]=$row[$i];
+else if($_GET["type"]=="rm"){
+	$ip=$_GET["ip"];
+	$dir=$_GET["deldir"];
+	if($dir == "/" || $dir == "/bin"|| $dir == "/sbin"){ //系统安全不能删除的目录
+		echo "您删除的目录过于重要，请三思而行.";
+	}else if($dir == ""){
+		echo "表逗我，你要删啥？";
+	}else if(!strstr($dir, '/')){
+		echo "不好意思，这个目录我不认识啊！";
+	}else if(substr($dir, -1) == "*"){
+		echo "最后的*号不用输入，我会补全的!";
+	}else{
+		if (substr($dir, -1) != "/"){
+			$dir=$dir."/";
 		}
-		$data[6]="<a class='btn btn-default btn-sm btn-icon icon-left' href='update.php?id={$row[0]}'><i class='entypo-pencil'></i><b>修改</b></a>";
-		array_push($datas,$data);
+		$command = "rm -rf ".$dir."*";
+		try{
+			$opt=new SSH2Opt();
+			$var = $opt->ssh2Exec($ip,$command);
+			foreach ($var as $va){
+				echo $va."<br/>";
+			}
+		}catch(PDOException $e){
+			echo "在$ip上  执行删除 失败";
+		}
 	}
-	echo json_encode($datas);
 }
+
+else if($_GET["type"]=="exec"){
+	$ip=$_GET["ip"];
+	$command=$_GET["execml"];
+	if($command == "vim" || $command == "/bin"|| $command == "/sbin"){ //系统安全不能删除的目录
+		echo "不能执行高级交互命令！";
+	}else{
+		try{
+			$opt=new SSH2Opt();
+			$var = $opt->ssh2Exec($ip,$command);
+			foreach ($var as $va){
+				echo $va."<br/>";
+			}
+		}catch(PDOException $e){
+			echo "在$ip上  执行删除 失败";
+		}
+	}
+}
+
 ?>

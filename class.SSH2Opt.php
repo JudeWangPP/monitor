@@ -46,6 +46,6 @@ class SSH2Opt extends SSH2Conn{
 	}
 }
 // 	$opt = new SSH2Opt();
-// 	$val = $opt->ssh2Exec('192.168.14.99','ls /');
+// 	$val = $opt->ssh2Exec('192.168.14.99','sudo ll');
 // 	print_r($val);
 ?>

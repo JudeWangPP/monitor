@@ -44,3 +44,12 @@ div.card div.content {
 	height: 100%;
 	min-height:500px;
 }
+
+.but{
+	background-color:#3399FF;
+	padding:2px 10px;
+	border-radius:3px;
+	border:1px solid #ccc;
+	color:#FFF;
+}
+	
