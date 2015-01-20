@@ -8,6 +8,7 @@
 	<title>o(∩_∩)o </title>
 	
 	<link rel="stylesheet" href="css/my.css">
+	<link rel="stylesheet" href="css/table.css">
 
 </head>
 <body>

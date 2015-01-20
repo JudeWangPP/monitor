@@ -4,11 +4,17 @@ if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
 	$command="cat /proc/cpuinfo";
 	try{
+		echo "<table class='imagetable'>";
 		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,"cat /proc/cpuinfo |grep processor|wc -l");
+		echo "<tr><td>逻辑CPU的个数</td><td>$var[0]</td></tr>";
+// 		print_r($var);
 		$var = $opt->ssh2Exec($ip,$command);
 		foreach ($var as $va){
-			echo $va."<br/>";
+// 			echo $va."<br/>";
+			echo "<tr><td>$va</td></tr>";
 		}
+		echo "</table>";
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
 	}
