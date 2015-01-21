@@ -50,13 +50,33 @@ else if($_GET["type"]=="memory"){
 		echo "<tr><th>内存总使用率</th><td>".round($value[3]/$value[2]*100,2)."%</td>";
 		echo "</table><br/>";
 		
-		echo "<table class='imagetable'>";
-		echo "<tr><th></th><th>内存总数</th><th>已使用</th><th>空闲内存</th><th>已经废弃</th><th>Buffer缓存内存数</th><th>Page缓存内存</th></tr>";
-		echo "<tr><th>内存</th><td>".$value[2]."M</td><td>".$value[3]."M</td><td>".$value[5]."M</td><td>".$value[7]."M</td><td>".$value[9]."M</td><td>".$value[11]."M</td></tr>";
+// 		echo "<table class='imagetable'>";
+// 		echo "<tr><th></th><th>内存总数</th><th>已使用</th><th>空闲内存</th><th>已经废弃</th><th>Buffer缓存内存数</th><th>Page缓存内存</th></tr>";
+// 		echo "<tr><th>内存</th><td>".$value[2]."M</td><td>".$value[3]."M</td><td>".$value[5]."M</td><td>".$value[7]."M</td><td>".$value[9]."M</td><td>".$value[11]."M</td></tr>";
 // 		$value=explode('    ',$var[2]);
 // 		echo "<tr><th>缓存内存</th><td>".$value[1]."M</td><td>".$value[3]."M</td><td></td><td></td><td></td><td></td></tr>";
 // 		$value=explode('    ',$var[3]);
 // 		echo "<tr><th>".$value[0]."</th><td>".$value[2]."M</td><td>".$value[4]."M</td><td>".$value[5]."M</td><td></td><td></td><td></td></tr>";
+// 		echo "</table>";
+		
+		echo "<table class='imagetable'>";
+		echo "<tr><th></th><th>内存总数（M）</th><th>已使用（M）</th><th>空闲内存（M）</th><th>已经废弃（M）</th><th>Buffer缓存内存数（M）</th><th>Page缓存内存（M）</th></tr>";
+		for ($i=1;$i<count($var);$i++){
+			$value=explode(' ',$var[$i]);
+			echo "<tr>";
+			$num = 1;
+			foreach($value as $val){
+				if($val != '' && $val != '-/+'){
+					echo "<td>".$val."</td>";
+					$num++;
+				}
+				if ($num > 10){
+					echo "<td><input type='button' value = 'kill'></td>";
+					break;
+				}
+			}
+			echo "</tr>";
+		}
 		echo "</table>";
 
 	}catch(PDOException $e){
@@ -96,14 +116,46 @@ else if($_GET["type"]=="service"){
 		$opt=new SSH2Opt();
 		echo "占用CPU前10的服务<br/>";
 		$var = $opt->ssh2Exec($ip,$command);
-		foreach ($var as $va){
-			echo $va."<br/>";
+		echo "<table class='imagetable'>";
+		echo "<tr><th>用户</th><th>PID</th><th>CPU使用率（%）</th><th>内存使用率（%）</th><th>占用虚拟内存（KB）</th><th>占用物理内存（KB）</th><th>进程状态</th><th>开始运行时间</th><th>占用CPU时间</th><th>启动进程命令</th><th>操作</th></tr>";
+		for ($i=1;$i<count($var);$i++){
+			$value=explode(' ',$var[$i]);
+			echo "<tr>";
+			$num = 1;
+			foreach($value as $val){
+				if($val != '' && $val != '?'){
+					echo "<td>".$val."</td>";
+					$num++;
+				}
+				if ($num > 10){
+					echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
+					break;
+				}
+			}
+			echo "</tr>";
 		}
-		echo "<br/><hr/>占用内存前10的服务<br/>";
+		echo "</table>";
+		echo "<br/>占用内存前10的服务<br/>";
 		$var = $opt->ssh2Exec($ip,$command1);
-		foreach ($var as $va){
-			echo $va."<br/>";
+		echo "<table class='imagetable'>";
+		echo "<tr><th>用户</th><th>PID</th><th>CPU使用率（%）</th><th>内存使用率（%）</th><th>占用虚拟内存（KB）</th><th>占用物理内存（KB）</th><th>进程状态</th><th>开始运行时间</th><th>占用CPU时间</th><th>启动进程命令</th><th>操作</th></tr>";
+		for ($i=1;$i<count($var);$i++){
+			$value=explode(' ',$var[$i]);
+			echo "<tr>";
+			$num = 1;
+			foreach($value as $val){
+				if($val != '' && $val != '?'){
+					echo "<td>".$val."</td>";
+					$num++;
+				}
+				if ($num > 10){
+					echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
+					break;
+				}
+			}
+			echo "</tr>";
 		}
+		echo "</table>";
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
 	}

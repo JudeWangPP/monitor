@@ -11,7 +11,7 @@ div.card div {
 
 div.card a {
 	color: black;
-	font-size: 28px;
+	font-size: 20px;
 	text-decoration: none;
 	float: left;
 	width: 19%;
@@ -21,28 +21,28 @@ div.card a {
 }
 
 div.card div.CPU a.CPU {
-	font: normal normal bold 28px/1.5 宋体;
+	font: normal normal bold 20px/1.5 宋体;
 }
 
 div.card div.memory a.memory {
-	font: normal normal bold 28px/1.5 宋体;
+	font: normal normal bold 20px/1.5 宋体;
 }
 
 div.card div.disk a.disk {
-	font: normal normal bold 28px/1.5 宋体;
+	font: normal normal bold 20px/1.5 宋体;
 }
 div.card div.service a.service {
-	font: normal normal bold 28px/1.5 宋体;
+	font: normal normal bold 20px/1.5 宋体;
 }
 div.card div.diy a.diy {
-	font: normal normal bold 28px/1.5 宋体;
+	font: normal normal bold 20px/1.5 宋体;
 }
 
 div.card div.content {
 	background-color: white;
 	border: 1px solid #ff8000;
 	height: 100%;
-	min-height:500px;
+	min-height:50px;
 	width:98%;
 	padding:20px 10px;
 }

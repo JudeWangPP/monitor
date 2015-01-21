@@ -9,11 +9,18 @@
 	
 	<link rel="stylesheet" href="css/my.css">
 	<link rel="stylesheet" href="css/table.css">
+	<script type=text/javascript src="js/jquery-1.8.3.min.js"></script>
+	<script type=text/javascript src="js/highchart.js"></script>
+	<script type=text/javascript src="js/kill.js"></script>
+	
+  <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
+  
 
 </head>
 <body>
 	<table style = "width:100%;min-width:650px">
-		<tr><td><h2>套外linux机器基础性能检查</h2></td></tr>
+<!-- 		<tr><td><h3>linux机器基础性能检查</h3></td></tr> -->
 		<tr><td>查询IP: <input id="ip" class= "editbox" type="text" value = "192.168.14.99" maxlength="15" ></td></tr>
 		<tr><td>
 			<div class="card">
@@ -27,7 +34,7 @@
 			</div>
 		</td></tr>
 	</table>
-Mysql主从同步检查
+	
 <script type="text/javascript">
 	var shq={}
 	shq.cmenu=function(e)

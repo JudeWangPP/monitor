@@ -36,6 +36,7 @@ class SSH2Opt extends SSH2Conn{
 					flush();
 					$out .= $buffer;
 				}
+				usleep(200000); // sleep 0.2 seconds
 			}
 			return $out;
 		}catch(PDOException $e){
