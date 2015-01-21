@@ -163,7 +163,7 @@ else if($_GET["type"]=="service"){
 }
 else if($_GET["type"]=="diy"){
 	$ip=$_GET["ip"];
-	echo "<iframe src='diy.php?ip=$ip' frameborder='0' width='100%' height='500px'></iframe>";
+	echo "<iframe src='diy.php?ip=$ip' frameborder='0' width='100%' height='450px'></iframe>";
 
 }
 else if($_GET["type"]=="rm"){
