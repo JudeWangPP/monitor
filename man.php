@@ -1,5 +1,6 @@
 <?php
 require_once "class.SSH2Opt.php";
+require_once 'classDBOpt';
 if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
 	$command="cat /proc/cpuinfo";
@@ -203,6 +204,20 @@ else if($_GET["type"]=="exec"){
 	$cmds=explode(';',$command); 
 	try{
 		$opt=new SSH2Opt();
+		$var = $opt->ssh2Shell($ip,$cmds);
+		echo "<pre>".$var."</pre>";
+	}catch(PDOException $e){
+		echo "在$ip上  执行删除 失败";
+	}
+}
+//下边是mysql主从同步请求接收
+else if($_GET["type"]=="mands"){
+	$ip=$_GET["group"];
+	$ip="192.168.".$ip."16";
+	$port=$_GET["port"];
+	$sql="show slave status;";
+	try{
+		$opt=new classDBOpt();
 		$var = $opt->ssh2Shell($ip,$cmds);
 		echo "<pre>".$var."</pre>";
 	}catch(PDOException $e){

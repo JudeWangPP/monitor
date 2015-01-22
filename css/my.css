@@ -65,4 +65,11 @@ div.card div.content {
 	width:200px;
     padding: 2px; /*www.52css.com*/
 }
-	
+.content{
+	background-color: white;
+	border: 1px solid #ff8000;
+	height: 100%;
+	min-height:50px;
+	width:600px;
+	padding:20px 20px;
+}
