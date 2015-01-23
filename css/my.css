@@ -73,3 +73,6 @@ div.card div.content {
 	width:800px;
 	padding:20px 20px;
 }
+.disabled{
+	background-color:#cccccc;
+}

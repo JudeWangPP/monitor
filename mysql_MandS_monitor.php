@@ -32,6 +32,7 @@
 				?>
 			</select></td>
 			<td><input id="ip" class="but" type="button" value="检查"></td>
+			<td><input id="aotofrush" class="but" onclick="aotofrush();" type="button" value="开启自动刷新"></td>
 		</tr>
 	</table>
 	<table>
@@ -59,6 +60,19 @@
 		$.get("man.php?type=fix",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
 			$("#ip").trigger('click');
 		});
+	}
+	function allSlaveStatus(){
+		$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
+		$.get("man.php?type=allmands",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+			$("#content").append(data);
+		});
+	}
+	function aotofrush(){
+		$('#aotofrush').attr('value','自动刷新中...');
+		$('#aotofrush').attr('disabled',true);
+		$('#aotofrush').addClass("disabled");
+		$('#ip').trigger('click');
+		setTimeout("aotofrush();",5000)
 	}
 </script>
 

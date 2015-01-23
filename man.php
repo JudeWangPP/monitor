@@ -240,27 +240,23 @@ else if($_GET["type"]=="mands"){
 				}else{
 					echo"<tr><th>主从同步延时秒数</th><td  style='font-size:18px;color:red;'>".$var['Seconds_Behind_Master']."(延迟)</td></tr>";
 				}
-				if($var['Slave_IO_Running'] == 'Y1es'){
+				if($var['Slave_IO_Running'] == 'Yes'){
 					echo"<tr><th>Slave_IO_Running</th><td style='font-size:18px;color:green'>".$var['Slave_IO_Running']."</td></tr>";
 				}else{
 					echo"<tr><th>Slave_IO_Running</th><td style='font-size:18px;color:red;'>".$var['Slave_IO_Running']."<td>IO挂掉了<br/>请联系管理员处理</td></td></tr>";
 					echo"<tr><th>最后一次IO错误</th><td >".$var['Last_IO_Error']."</td></tr>";
 				}
-				if($var['Slave_SQL_Running'] == 'Y1es'){
+				if($var['Slave_SQL_Running'] == 'Yes'){
 					echo"<tr><th>Slave_SQL_Running</th><td style='font-size:18px;color:green'>".$var['Slave_SQL_Running']."</td></tr>";
 				}else{
 					echo"<tr><th>Slave_SQL_Running</th><td style='font-size:18px;color:red;'>".$var['Slave_SQL_Running']."<td><input id='fix' class='but' type='button' onclick='fixSlaveSqlStatus()' value='修复'></td></td></tr>";
 					echo"<tr><th>最后一次SQL错误</th><td>".$var['Last_SQL_Error']."</td></tr>";
 				}
-// 				echo"<tr><th>最后一次错误</th><td>".$var['Last_Error']."</td></tr>";
-				
 
-// 				foreach ($var as $key=>$a){
-// 					echo"<tr><th>".$key."</th><td>".$a."</td></tr>";
-// 				}
 			}
 		}
 		echo "</table>";
+		echo "<br/><input id='fix' class='but' style='background-color:#cccccc;' type='button' onclick='allSlaveStatus()' value='查看全部主从同步信息'>";
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
 	}
@@ -278,7 +274,31 @@ else if($_GET["type"]=="fix"){
 		$vars3 = $opt->execSql($ip,$port,$sql3);
 		echo $vars1,$vars2,$vars3;
 	}catch(PDOException $e){
-			echo "在$ip上  执行删除 失败";
-		}
+		echo "在$ip上  执行删除 失败";
 	}
+}
+else if($_GET["type"]=="allmands"){
+	$ip="192.168.".$_GET["group"].".16";
+	$port=$_GET["port"];
+	$sql="show slave status;";
+	try{
+		$opt=new classDBOpt();
+		$vars = $opt->execSql($ip,$port,$sql);
+		echo "<table class='imagetable'>";
+		echo "<tr><th>项目</th><th>值</th>";
+		$flag=0;
+		foreach ($vars[0] as $key=>$a){
+			if($flag%2 == 1){
+				$flag++;
+				continue;
+			}
+			echo"<tr><th>".$key."</th><td>".$a."</td></tr>";
+			$flag++;
+		}
+		echo "</table>";
+// 		print_r($vars[0]);
+	}catch(PDOException $e){
+		echo "在$ip上  执行删除 失败";
+	}
+}
 ?>
