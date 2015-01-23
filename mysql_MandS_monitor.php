@@ -8,6 +8,7 @@
 <title>o(∩_∩)o</title>
 
 <link rel="stylesheet" href="css/my.css">
+<link rel="stylesheet" href="css/table.css">
 <script type=text/javascript src="js/jquery-1.8.3.min.js"></script>
 
 </head>
@@ -30,16 +31,36 @@
 				 }
 				?>
 			</select></td>
-			<td><input id="ip" class="but" type="button" value="检查" maxlength="2"></td>
+			<td><input id="ip" class="but" type="button" value="检查"></td>
 		</tr>
 	</table>
 	<table>
 		<tr>
-			<td><div class="content">请选择类型</div></td>
+			<td><div id="content" class="content">请选择查询的网段和端口</div></td>
 		</tr>
 	</table>
 
-
+<script>
+	$(function(){ 
+		$("#ip").click(function(e){
+			$("#content").html("加载中，请等待。。。");
+			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
+			$.get("man.php?type=mands",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+				if(data == '0'){
+					$("#content").html("该网段和端口下未建立主从关系");
+				}else{
+					$("#content").html(data);
+				}
+			});
+		});
+	});
+	function fixSlaveSqlStatus(){
+		$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
+		$.get("man.php?type=fix",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+			$("#ip").trigger('click');
+		});
+	}
+</script>
 
 </body>
 </html>

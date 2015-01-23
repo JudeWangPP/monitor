@@ -1,6 +1,6 @@
 <?php
 require_once "class.SSH2Opt.php";
-require_once 'classDBOpt';
+require_once 'classDBOpt.php';
 if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
 	$command="cat /proc/cpuinfo";
@@ -123,16 +123,20 @@ else if($_GET["type"]=="service"){
 			$value=explode(' ',$var[$i]);
 			echo "<tr>";
 			$num = 1;
+			$allComm="";
 			foreach($value as $val){
-				if($val != '' && $val != '?'){
+				if($val != '' && $val != '?' && $num < 10){
 					echo "<td>".$val."</td>";
 					$num++;
+				}else{
+					if ($num > 9){
+						$allComm=$allComm.$val.'&nbsp';
+					}
 				}
-				if ($num > 10){
-					echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
-					break;
-				}
+
 			}
+			echo "<td title=$allComm>".substr($allComm,0,40)."</td>";
+			echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
 			echo "</tr>";
 		}
 		echo "</table>";
@@ -144,16 +148,20 @@ else if($_GET["type"]=="service"){
 			$value=explode(' ',$var[$i]);
 			echo "<tr>";
 			$num = 1;
+			$allComm="";
 			foreach($value as $val){
-				if($val != '' && $val != '?'){
+				if($val != '' && $val != '?' && $num < 10){
 					echo "<td>".$val."</td>";
 					$num++;
+				}else{
+					if ($num > 9){
+						$allComm=$allComm.$val.'&nbsp';
+					}
 				}
-				if ($num > 10){
-					echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
-					break;
-				}
+
 			}
+			echo "<td title=$allComm>".substr($allComm,0,40)."</td>";
+			echo "<td><input type='button' value = 'kill' class='but' onclick='kill();'></td>";
 			echo "</tr>";
 		}
 		echo "</table>";
@@ -212,17 +220,65 @@ else if($_GET["type"]=="exec"){
 }
 //下边是mysql主从同步请求接收
 else if($_GET["type"]=="mands"){
-	$ip=$_GET["group"];
-	$ip="192.168.".$ip."16";
+	$ip="192.168.".$_GET["group"].".16";
 	$port=$_GET["port"];
 	$sql="show slave status;";
 	try{
 		$opt=new classDBOpt();
-		$var = $opt->ssh2Shell($ip,$cmds);
-		echo "<pre>".$var."</pre>";
+		$vars = $opt->execSql($ip,$port,$sql);
+		if(count($vars) == 0){
+			echo 0;
+		}else{
+			echo "<table class='imagetable'>";
+			echo "<tr><th width='30%'>项目</th><th width='50%'>值</th><th width='20%'>说明/操作</th>";
+			foreach ($vars as $var){
+				echo"<tr><th>主从当前状态</th><td>".$var['Slave_IO_State']."</td></tr>";
+				echo"<tr><th>主机IP地址</th><td>".$var['Master_Host']."</td></tr>";
+				echo"<tr><th>主机端口</th><td>".$var['Master_Port']."</td></tr>";
+				if($var['Seconds_Behind_Master'] == 0){
+					echo"<tr><th>主从同步延时秒数</th><td style='font-size:18px;color:green'>".$var['Seconds_Behind_Master']."</td></tr>";
+				}else{
+					echo"<tr><th>主从同步延时秒数</th><td  style='font-size:18px;color:red;'>".$var['Seconds_Behind_Master']."(延迟)</td></tr>";
+				}
+				if($var['Slave_IO_Running'] == 'Y1es'){
+					echo"<tr><th>Slave_IO_Running</th><td style='font-size:18px;color:green'>".$var['Slave_IO_Running']."</td></tr>";
+				}else{
+					echo"<tr><th>Slave_IO_Running</th><td style='font-size:18px;color:red;'>".$var['Slave_IO_Running']."<td>IO挂掉了<br/>请联系管理员处理</td></td></tr>";
+					echo"<tr><th>最后一次IO错误</th><td >".$var['Last_IO_Error']."</td></tr>";
+				}
+				if($var['Slave_SQL_Running'] == 'Y1es'){
+					echo"<tr><th>Slave_SQL_Running</th><td style='font-size:18px;color:green'>".$var['Slave_SQL_Running']."</td></tr>";
+				}else{
+					echo"<tr><th>Slave_SQL_Running</th><td style='font-size:18px;color:red;'>".$var['Slave_SQL_Running']."<td><input id='fix' class='but' type='button' onclick='fixSlaveSqlStatus()' value='修复'></td></td></tr>";
+					echo"<tr><th>最后一次SQL错误</th><td>".$var['Last_SQL_Error']."</td></tr>";
+				}
+// 				echo"<tr><th>最后一次错误</th><td>".$var['Last_Error']."</td></tr>";
+				
+
+// 				foreach ($var as $key=>$a){
+// 					echo"<tr><th>".$key."</th><td>".$a."</td></tr>";
+// 				}
+			}
+		}
+		echo "</table>";
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
 	}
 }
-
+else if($_GET["type"]=="fix"){
+	$ip="192.168.".$_GET["group"].".16";
+	$port=$_GET["port"];
+	$sql1="SLAVE STOP;";
+	$sql2="SET GLOBAL sql_slave_skip_counter = 1;";
+	$sql3=" SLAVE START;";
+	try{
+		$opt=new classDBOpt();
+		$vars1 = $opt->execSql($ip,$port,$sql1);
+		$vars2 = $opt->execSql($ip,$port,$sql2);
+		$vars3 = $opt->execSql($ip,$port,$sql3);
+		echo $vars1,$vars2,$vars3;
+	}catch(PDOException $e){
+			echo "在$ip上  执行删除 失败";
+		}
+	}
 ?>

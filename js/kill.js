@@ -1,4 +1,4 @@
 
 function kill(){
-	alert("开发中");
+	alert("尽请期待");
 };

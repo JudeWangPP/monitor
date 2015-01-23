@@ -22,9 +22,8 @@ class classDBOpt extends DBConn{
 	}
 }
 
-	$db = new classDBOpt();
-	$row = $db->execSql('192.168.67.16','6026','show slave status;');
-	echo "<pre>";
-	print_r($row);
-
+// 	$db = new classDBOpt();
+// 	$vars = $db->execSql('192.168.67.16','6026',' SLAVE start;');
+// 	echo "<pre>";
+// 	print_r($vars);
 ?>
