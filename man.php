@@ -256,7 +256,12 @@ else if($_GET["type"]=="mands"){
 			}
 		}
 		echo "</table>";
-		echo "<br/><input id='fix' class='but' style='background-color:#cccccc;' type='button' onclick='allSlaveStatus()' value='查看全部主从同步信息'>";
+		echo "<pre>说明：
+Slave_IO_Running 和 Slave_SQL_Running 均为 Yes 的时候说明主从同步服务正常运行。
+主从同步延时秒数 为0时，说明同步及时
+当Slave_SQL_Running 状态为 No的时候，说明/操作 列会 出现“修复”按钮，点击进行修复。
+开启自动刷新后，每隔5s刷新一次，如想停止请刷新页面。</pre>";
+		echo "<input id='fix' class='but' style='background-color:#cccccc;' type='button' onclick='allSlaveStatus()' value='查看全部主从同步信息'>";
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
 	}
