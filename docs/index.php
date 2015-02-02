@@ -32,8 +32,7 @@
 		</div>
 		<section class="Hui_article">
 			<nav class="Hui_breadcrumb">
-				<a class="maincolor" href="./">首页</a> <span class="c_gray en">&gt;</span><span
-					class="c_gray">常用文档</span>
+				<a class="maincolor" href="./">首页</a> 
 			</nav>
 <!-- 			开始正文内容			 -->
 			<div class="dir-path cl pt-5 pb-5 pl-10 pr-10">

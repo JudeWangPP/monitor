@@ -32,8 +32,11 @@
 		</div>
 		<section class="Hui_article">
 			<nav class="Hui_breadcrumb">
-				<a class="maincolor" href="./">首页</a> <span class="c_gray en">&gt;</span><span
-					class="c_gray">常用文档</span>
+				<a class="maincolor" href="./">首页</a> 
+				<span class="c_gray en">&gt;</span>
+				<span class="c_gray">常用文档</span>
+				<span class="c_gray en">&gt;</span>
+				<span class="c_gray">工具说明文档</span>
 			</nav>
 <!-- 			开始正文内容			 -->
 			<div class="Hui_articlebox">
