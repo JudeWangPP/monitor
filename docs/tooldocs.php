@@ -28,7 +28,7 @@
 	<div class="cl frame-main">
 		<?php require_once 'slider.php';?>
 		<div class="dislpayArrow">
-			<a class="pngfix" href="javascript:void(0);"></a>
+			<a ID = "wangzhipeng" class="pngfix" href="javascript:void(0);"></a>
 		</div>
 		<section class="Hui_article">
 			<nav class="Hui_breadcrumb">
@@ -97,11 +97,9 @@
 		</section>
 	</div>
 	
-<!-- 	<script> 
-// 	$("li").hover(function(){ 
-// 		alert($("li").index(this)); 
-// 		}); 
-	</script>-->
+<script> 
+setTimeout("$('#wangzhipeng').trigger('click')",5000);
+</script>
 	
 </body>
 </html>
