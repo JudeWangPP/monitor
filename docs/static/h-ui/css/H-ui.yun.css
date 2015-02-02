@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* ----------------------------------
+H-ui.yun v1.0.1
+基于Bootstrap框架的改进扩展，比Bootstrap更懂中国。
+完全免费，简单灵活，兼容性，满足大多数中国网站。
+不断完善中，诚邀更多前端开发者加入，开发更多优秀的代码，服务于更多的中国网站。
+H-ui.yun CSS file for H-ui
+Copyright H-ui Inc.
+http://www.H-ui.net
+date:2014.1.7
+Created & Modified by jackying.
+----------------------------------
+结构目录：
+	1. 全局样式
+		1.1 面包屑导航+搜索
+	2. 资讯列表
+	3. 资讯详情
+	4. 评论	
+			
+*  全局样式参见 H-ui.css
+----------------------------------*/
+.admin_con{ padding-left:10px;}
+.dir-path{ font-size:12px}
+
+.listview header{ line-height:40px;background: none repeat scroll 0 0 #F7F7F7;border-radius: 2px 2px 2px 2px;color: #666;font-size: 12px;border: 1px solid #D2D2D2;}
+.listview .col{text-overflow:ellipsis;white-space:nowrap;}
+.listview .col span{ padding-left:10px}
+.listview .c1{ margin-right:260px;}
+.listview .c2{ width:130px; float:right}
+.listview .c3{ width:130px; float:right;}
+.listview header .col{font-size:12px;font-family: verdana;color:#888;border-left:1px solid #fff; border-right:solid 1px #e5e5e5;}
+.listview header .c1{ border-left:none}
+.listview header .c2{ border-right:none;width:129px;}
+.listview header .c3{width:128px;}
+
+.listview .item{ font-size:12px;border-bottom: 1px solid #D2D2D2;position: relative; margin:0px;padding:8px 0px;}
+.listeditbar{ display:none;position:absolute; top:8px; width:210px; right:200px}
+.listview .item:hover,.listview .item.hover{background: none repeat scroll 0 0 #F7F7F7;}
+.listview .item:hover .listeditbar,.listview .item.hover .listeditbar{ display:block; }
+.listview .item.list-verifi span > a{ font-weight:bold;}
+.listview .item.list-no span > a{ color:#F00}
+.fileList .alert{ margin-bottom:5px; text-align:center}
+.sprite-list-ic{display: inline-block;vertical-align: middle;background: url(../images/sprite_list_icon.png) no-repeat 9999px 9999px;height: 22px;width: 26px;}
+.icon-pic{background-position: 0px -80px;}
+.icon-v{background-position: -32px -80px;}
+.icon-pdf{background-position: -64px -80px;}
+.icon-doc{background-position: -96px -80px;}
+.icon-xls{background-position: -128px -80px;}
+.icon-txt{background-position: -160px -80px;}
+.icon-music{background-position: -192px -80px;}
+.icon-video{background-position: -224px -80px;}
+.icon-other{background-position: -256px -80px;}
+.icon-chm{background-position: -608px -80px;}
+.bookList{ padding-left:10px}
+.bookList .item{ width:160px; padding:15px; float:left; margin-right:10px; margin-top:15px;font-size:12px}
+.bookList .item .img{ text-align:center; height:160px; background:url(../images/loading_s.gif) no-repeat center}
+.bookList .item .img img{height: 160px; }
+.bookList .item .txt{ margin-top:8px;}
+.bookList .item .title {height: 36px;word-break: break-all; line-height:18px; font-weight:bold;}
+.bookList .item .title a{ color:#666}
+.price{ font-family:verdana;color: #c00; font-size:14px; font-weight:bold;text-shadow: 0 1px 1px #ddd;}
+.price em{ font-style:normal;font-family: Arial;}
