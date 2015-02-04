@@ -67,6 +67,7 @@
 		});
 	}
 	function allSlaveStatus(){
+		$('#allSlaveStatus').attr('disabled',true);
 		$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
 		$.get("man.php?type=allmands",{group:$("#envgroup").val(),port:$("#port").val(),user:$("#mysqlusername").val(),pass:$("#mysqlpassword").val()},function(data){
 			$("#content").append(data);
