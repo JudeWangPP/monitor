@@ -31,8 +31,13 @@
 				 }
 				?>
 			</select></td>
+
 			<td><input id="ip" class="but" type="button" value="检查"></td>
-			<td><input id="aotofrush" class="but" onclick="aotofrush();" type="button" value="开启自动刷新"></td>
+			<td><input id="aotofrush" class="but" onclick="aotofrush();" type="button" value="开启自动刷新"></td><td>|</td>
+			
+			<td><input id="showup" class="but" type="button" onclick = "showUP();"value="指定帐号密码"></td>
+			<td><input id="mysqlusername" class = "editboxmini" type="text" value="liangyong.guo"></td>
+			<td><input id="mysqlpassword" class = "editboxmini" type="password" value="123456"></td>
 		</tr>
 	</table>
 	<table>
@@ -46,7 +51,7 @@
 		$("#ip").click(function(e){
 			$("#content").html("加载中，请等待。。。");
 			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
-			$.get("man.php?type=mands",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+			$.get("man.php?type=mands",{group:$("#envgroup").val(),port:$("#port").val(),user:$("#mysqlusername").val(),pass:$("#mysqlpassword").val()},function(data){
 				if(data == '0'){
 					$("#content").html("该网段和端口下未建立主从关系");
 				}else{
@@ -57,13 +62,13 @@
 	});
 	function fixSlaveSqlStatus(){
 		$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
-		$.get("man.php?type=fix",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+		$.get("man.php?type=fix",{group:$("#envgroup").val(),port:$("#port").val(),user:$("#mysqlusername").val(),pass:$("#mysqlpassword").val()},function(data){
 			$("#ip").trigger('click');
 		});
 	}
 	function allSlaveStatus(){
 		$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
-		$.get("man.php?type=allmands",{group:$("#envgroup").val(),port:$("#port").val()},function(data){
+		$.get("man.php?type=allmands",{group:$("#envgroup").val(),port:$("#port").val(),user:$("#mysqlusername").val(),pass:$("#mysqlpassword").val()},function(data){
 			$("#content").append(data);
 		});
 	}
@@ -73,6 +78,10 @@
 		$('#aotofrush').addClass("disabled");
 		$('#ip').trigger('click');
 		setTimeout("aotofrush();",5000)
+	}
+	function showUP(){
+		$("#showup").hide();
+		$(".editboxmini").show(0);
 	}
 </script>
 

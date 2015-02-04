@@ -65,6 +65,18 @@ div.card div.content {
 	width:200px;
     padding: 2px; /*www.52css.com*/
 }
+.editboxmini{
+    background: #EEEEEE;
+    border: 1px solid #b7b7b7;
+    color: #003366;
+    cursor: text;
+    font-family: "楷体";
+    font-size: 10pt;
+    height: 20px;
+	width:100px;
+    padding: 0px; /*www.52css.com*/
+    display:none;
+}
 .content{
 	background-color: white;
 	border: 1px solid #ff8000;

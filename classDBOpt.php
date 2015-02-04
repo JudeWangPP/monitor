@@ -6,11 +6,11 @@ class classDBOpt extends DBConn{
 	 * 查询上周新增和未关闭BUG
 	 * LW lastweek
 	 */
-	public function execSql($ip,$port,$sql){
+	public function execSql($ip,$port,$user,$pass,$sql){
 		$dsnStr="mysql:host=".$ip.":".$port.";dbname=mysql";
-		$conn=parent::getConn($dsnStr);
+		$conn=parent::getConn($dsnStr,$user,$pass);
 		try{
-			$st=$conn->prepare($sql);
+			$st=@$conn->prepare($sql);
 			$st->execute();
 			$row=$st->fetchALL();
 			$conn=Null;

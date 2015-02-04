@@ -222,10 +222,12 @@ else if($_GET["type"]=="exec"){
 else if($_GET["type"]=="mands"){
 	$ip="192.168.".$_GET["group"].".16";
 	$port=$_GET["port"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$sql="show slave status;";
 	try{
 		$opt=new classDBOpt();
-		$vars = $opt->execSql($ip,$port,$sql);
+		$vars = $opt->execSql($ip,$port,$user,$pass,$sql);
 		if(count($vars) == 0){
 			echo 0;
 		}else{
@@ -269,14 +271,16 @@ Slave_IO_Running 和 Slave_SQL_Running 均为 Yes 的时候说明主从同步服
 else if($_GET["type"]=="fix"){
 	$ip="192.168.".$_GET["group"].".16";
 	$port=$_GET["port"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$sql1="SLAVE STOP;";
 	$sql2="SET GLOBAL sql_slave_skip_counter = 1;";
 	$sql3=" SLAVE START;";
 	try{
 		$opt=new classDBOpt();
-		$vars1 = $opt->execSql($ip,$port,$sql1);
-		$vars2 = $opt->execSql($ip,$port,$sql2);
-		$vars3 = $opt->execSql($ip,$port,$sql3);
+		$vars1 = $opt->execSql($ip,$port,$user,$pass,$sql);
+		$vars2 = $opt->execSql($ip,$port,$user,$pass,$sql);
+		$vars3 = $opt->execSql($ip,$port,$user,$pass,$sql);
 		echo $vars1,$vars2,$vars3;
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
@@ -285,10 +289,12 @@ else if($_GET["type"]=="fix"){
 else if($_GET["type"]=="allmands"){
 	$ip="192.168.".$_GET["group"].".16";
 	$port=$_GET["port"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$sql="show slave status;";
 	try{
 		$opt=new classDBOpt();
-		$vars = $opt->execSql($ip,$port,$sql);
+		$vars = $opt->execSql($ip,$port,$user,$pass,$sql);
 		echo "<table class='imagetable'>";
 		echo "<tr><th>项目</th><th>值</th>";
 		$flag=0;
