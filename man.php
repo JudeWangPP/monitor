@@ -119,10 +119,12 @@ EOF;
 }
 else if($_GET["type"]=="disk"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$command="df -l -m";
 	try{
 		$opt=new SSH2Opt();
-		$var = $opt->ssh2Exec($ip,$command);
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
 		echo "<table class='imagetable'>";
 		echo "<tr><th>文件系统</th><th>总计（M）</th><th>已用（M）</th><th>可用（M）</th><th>已用（%）</th><th>挂载点</th></tr>";
 		for ($i=1;$i<count($var);$i++){
@@ -143,12 +145,14 @@ else if($_GET["type"]=="disk"){
 }
 else if($_GET["type"]=="service"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$command="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head";
 	$command1="ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head";
 	try{
 		$opt=new SSH2Opt();
 		echo "占用CPU前10的服务<br/>";
-		$var = $opt->ssh2Exec($ip,$command);
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
 		echo "<table class='imagetable'>";
 		echo "<tr><th>用户</th><th>PID</th><th>CPU使用率（%）</th><th>内存使用率（%）</th><th>占用虚拟内存（KB）</th><th>占用物理内存（KB）</th><th>进程状态</th><th>开始运行时间</th><th>占用CPU时间</th><th>启动进程命令</th><th>操作</th></tr>";
 		for ($i=1;$i<count($var);$i++){
@@ -173,7 +177,7 @@ else if($_GET["type"]=="service"){
 		}
 		echo "</table>";
 		echo "<br/>占用内存前10的服务<br/>";
-		$var = $opt->ssh2Exec($ip,$command1);
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command1);
 		echo "<table class='imagetable'>";
 		echo "<tr><th>用户</th><th>PID</th><th>CPU使用率（%）</th><th>内存使用率（%）</th><th>占用虚拟内存（KB）</th><th>占用物理内存（KB）</th><th>进程状态</th><th>开始运行时间</th><th>占用CPU时间</th><th>启动进程命令</th><th>操作</th></tr>";
 		for ($i=1;$i<count($var);$i++){
@@ -204,11 +208,15 @@ else if($_GET["type"]=="service"){
 }
 else if($_GET["type"]=="diy"){
 	$ip=$_GET["ip"];
-	echo "<iframe src='diy.php?ip=$ip' frameborder='0' width='100%' height='450px'></iframe>";
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
+	echo "<iframe src='diy.php?ip=$ip&user=$user&pass=$pass' frameborder='0' width='100%' height='450px'></iframe>";
 
 }
 else if($_GET["type"]=="rm"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$dir=$_GET["deldir"];
 	if($dir == "/" || $dir == "/bin"|| $dir == "/sbin"){ //系统安全不能删除的目录
 		echo "您删除的目录过于重要，请三思而行.";
@@ -225,7 +233,7 @@ else if($_GET["type"]=="rm"){
 		$command = "rm -rf ".$dir."*";
 		try{
 			$opt=new SSH2Opt();
-			$var = $opt->ssh2Exec($ip,$command);
+			$var = $opt->ssh2Exec($ip,$user,$pass,$command);
 			foreach ($var as $va){
 				echo $va."<br/>";
 			}
@@ -237,14 +245,17 @@ else if($_GET["type"]=="rm"){
 
 else if($_GET["type"]=="exec"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$command=$_GET["execml"];
 	if(substr($command, -1) == ";"){
 		$command = substr($command,0,strlen($command)-1);
 	}
 	$cmds=explode(';',$command); 
+	print_r($cmds);
 	try{
 		$opt=new SSH2Opt();
-		$var = $opt->ssh2Shell($ip,$cmds);
+		$var = $opt->ssh2Shell($ip,$user,$pass,$cmds);
 		echo "<pre>".$var."</pre>";
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";

@@ -23,8 +23,8 @@ class SSH2Opt extends SSH2Conn{
 	/**
 	 * 更新一个渠道
 	 */
-	public function ssh2Shell($host,$cmds){  //主机名称   和  命令数组
-		$conn=parent::getConn($host);
+	public function ssh2Shell($host,$user,$pass,$cmds){  //主机名称   和  命令数组
+		$conn=parent::getConn($host,'22',$user,$pass);
 		try{
 			$out = '';
 			$shell = ssh2_shell($conn);

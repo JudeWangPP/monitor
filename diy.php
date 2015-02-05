@@ -1,5 +1,7 @@
 <?php 
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 ?>
 
 <!DOCTYPE HTML>
@@ -14,7 +16,12 @@
 
 </head>
 <body>
+	<div id="animate">
 	<input id="ip" type="text" value="<?php echo $ip;?>" maxlength="15" style="display: none">
+	<input id="showup" class="but" type="button" onclick = "showUP();"value="指定帐号密码">
+	<input id="user" class = "editboxmini" type="text" value="<?php echo $user;?>">
+	<input id="pass" class = "editboxmini" type="password" value="<?php echo $pass;?>"><font size="6px">☜</font><small style="color:red;">指定帐号密码受此处控制。</small>
+	</div>
 	<table>
 		<tr>
 			<td>删除指定目录下所有文件:</td>
@@ -31,11 +38,13 @@
 	</table>
 	<div>执行结果:</div>
 	<div style="width:100%;height:100%;border:1px solid #082E54">
-		<div style="border:10px solid #FFFFFF" id = "execRes"><?php echo $ip;?></div>
+		<div style="border:10px solid #FFFFFF" id = "execRes"><?php echo $ip." ".$user?></div>
 	</div>
 	
 <script>
 	$(function(){ 
+		$("#animate").animate({fontSize:"2em"});
+		$("#animate").animate({fontSize:"1em"});
 		$("#delDirBut").click(function(e){
 			$("td[data_tip='delRes']").html("");
 			var msg = "确认要删除\n\n　　　机器 " + $("#ip").val() +"\n　　　路径 " + $("#delDir").val() + "\n\n　　　下所有内容吗？";
@@ -43,7 +52,7 @@
 	            return 
 	        }
 			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
-			$.get("man.php?type=rm",{ip:$("#ip").val(),deldir:$("#delDir").val()},function(data){
+			$.get("man.php?type=rm",{ip:$("#ip").val(),user:$("#user").val(),pass:$("#pass").val(),deldir:$("#delDir").val()},function(data){
 				if(data == ''){
 					$("td[data_tip='delRes']").html("<font size='1' color='green'>执行删除命令成功!</font>");
 				}else{
@@ -56,7 +65,7 @@
 			$("#execRes").html("执行中。。。");
 			$("#execMl").select();  //下次输入不用先删除本次内容
 			$.ajaxSetup({ cache: false }); //IE浏览器会对相同ajax请求做缓存，该设置为设置不缓存
-			$.get("man.php?type=exec",{ip:$("#ip").val(),execml:$("#execMl").val()},function(data){
+			$.get("man.php?type=exec",{ip:$("#ip").val(),user:$("#user").val(),pass:$("#pass").val(),execml:$("#execMl").val()},function(data){
 				if(data == ''){
 					$("#execRes").html("命令不正确或者命令无返回结果");
 				}else{
@@ -70,6 +79,10 @@
 			}
 		});
 	});
+	function showUP(){
+		$("#showup").hide();
+		$(".editboxmini").show(0);
+	}
 </script>
 </body>
 </html>

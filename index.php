@@ -24,8 +24,8 @@
 		<tr>
 			<td>查询IP: <input id="ip" class= "editbox" type="text" value = "192.168.14.99" maxlength="15" >
 			<input id="showup" class="but" type="button" onclick = "showUP();"value="指定帐号密码">
-			<input id="mysqlusername" class = "editboxmini" type="text" value="tester">
-			<input id="mysqlpassword" class = "editboxmini" type="password" value="nopass.2"></td>
+			<input id="Lusername" class = "editboxmini" type="text" value="tester">
+			<input id="Lpassword" class = "editboxmini" type="password" value="nopass.2"></td>
 		</tr>
 		<tr><td>
 			<div class="card">
@@ -48,8 +48,8 @@
 	        if(/a/i.test(e.tagName)){
 	        e.parentNode.className=e.className;
 	        var ip=document.getElementById("ip").value;
-	        var user=document.getElementById("mysqlusername").value;
-	        var pass=document.getElementById("mysqlpassword").value;
+	        var user=document.getElementById("Lusername").value;
+	        var pass=document.getElementById("Lpassword").value;
 	        if(e.id == 'cpu'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
 		        var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&user=" + user + "&pass=" + pass + "&timesnap=" + new Date().toTimeString();
@@ -60,15 +60,15 @@
 				ajax(url);
 			}else if(e.id == 'disk'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
+				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&user=" + user + "&pass=" + pass + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 			}else if(e.id == 'service'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
+				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&user=" + user + "&pass=" + pass + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 			}else if(e.id == 'diy'){
 	        	e.parentNode.nextSibling.innerHTML='加载中，请等待。。。'
-				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&timesnap=" + new Date().toTimeString();
+				var url = "/monitor/man.php?type=" + e.id + "&ip=" + ip + "&user=" + user + "&pass=" + pass + "&timesnap=" + new Date().toTimeString();
 				ajax(url);
 			}
 
