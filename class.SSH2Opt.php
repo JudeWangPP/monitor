@@ -4,8 +4,8 @@ class SSH2Opt extends SSH2Conn{
 	/**
 	 * ssh2执行命令
 	 */
-	public function ssh2Exec($host,$command){
- 		$conn=parent::getConn($host);
+	public function ssh2Exec($host,$user,$pass,$command){
+ 		$conn=parent::getConn($host,'22',$user,$pass);
  		$result = array();
  		try{
 			$stream = ssh2_exec($conn, $command);

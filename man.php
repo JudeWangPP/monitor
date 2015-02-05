@@ -3,12 +3,14 @@ require_once "class.SSH2Opt.php";
 require_once 'classDBOpt.php';
 if($_GET["type"]=="cpu"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$command="cat /proc/cpuinfo";
 	try{
 		echo "基础信息：";
 		echo "<table class='imagetable'>";
 		$opt=new SSH2Opt();
-		$var = $opt->ssh2Exec($ip,$command);
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
 		$strs = '';
 		foreach ($var as $va){ //将数组 字符串化，用于做统计
 			$strs = $strs.$va;
@@ -25,7 +27,7 @@ if($_GET["type"]=="cpu"){
 		
 		echo "<br/>使用信息：";
 		echo "<table class='imagetable'>";
-		$var = $opt->ssh2Exec($ip,"mpstat");
+		$var = $opt->ssh2Exec($ip,$user,$pass,"mpstat");
 		$value=explode(' ',$var[3]);
 		echo "<tr><th>统计方式</th><th>".$value[3]."</th></tr>";
 		echo "<tr><td>总使用率</td><td>".$value[7]."%</td></tr>";
@@ -41,14 +43,15 @@ if($_GET["type"]=="cpu"){
 }
 else if($_GET["type"]=="memory"){
 	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
 	$command="free -m";
 	try{
 		$opt=new SSH2Opt();
-		$var = $opt->ssh2Exec($ip,$command);
-		
-		$value=explode('    ',$var[1]);
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
+		$value=explode('    ',$var[2]);
 		echo "<table class='imagetable'>";
-		echo "<tr><th>内存总使用率</th><td>".round($value[3]/$value[2]*100,2)."%</td>";
+		echo "<tr><th>内存使用率</th><td>".round($value[1]/($value[1]+$value[3])*100,2)."%</td>";
 		echo "</table><br/>";
 		
 // 		echo "<table class='imagetable'>";
@@ -62,23 +65,52 @@ else if($_GET["type"]=="memory"){
 		
 		echo "<table class='imagetable'>";
 		echo "<tr><th></th><th>内存总数（M）</th><th>已使用（M）</th><th>空闲内存（M）</th><th>已经废弃（M）</th><th>Buffer缓存内存数（M）</th><th>Page缓存内存（M）</th></tr>";
+		//我也不知道这个for循环该这么备注了 ，总之就是为了获取期望的table。
 		for ($i=1;$i<count($var);$i++){
 			$value=explode(' ',$var[$i]);
 			echo "<tr>";
-			$num = 1;
-			foreach($value as $val){
-				if($val != '' && $val != '-/+'){
-					echo "<td>".$val."</td>";
-					$num++;
+			if ($i == 2){
+				$num = 1;
+				foreach($value as $val){
+					if($val != '' && $val != '-/+'){
+						if($num == 2){
+							echo "<td></td>";
+						}
+						echo "<td>".$val."</td>";
+						$num++;
+					}
 				}
-				if ($num > 10){
-					echo "<td><input type='button' value = 'kill'></td>";
-					break;
+			}else{
+				foreach($value as $val){
+					if($val != '' && $val != '-/+'){
+						echo "<td>".$val."</td>";
+					}
 				}
 			}
 			echo "</tr>";
 		}
 		echo "</table>";
+		echo <<<EOF
+<pre>说明：
+
+Mem开头的行：
+内存总数：比如这台机器4G内存，实际上已经扣除掉了作为显存的部分。
+已使用　：这部分既包括操作系统本身使用的部分，也包括应用程序已经使用的部分，还包括缓存的部分。
+空闲内存：操作系统还没有使用的内存数。我们通常看到这部分比较小。
+已经废弃：已经废弃不用，总是显示0。
+Buffer缓存内存：作为缓存的内存数
+Page缓存内存：作为缓存的内存数
+
+-/+ buffers/cache开头的行：（重点看这行）
+已使用　：应用程序总共使用的内存数。等于Mem.used-Mem.buffers-Mem.cached。
+空闲内存：是指应用程序还未使用的内存数。这个数据才是我们需要关注的空闲可用内存数。等于Mem.free+Mem.buffers+Mem.cached。
+如果此行中free列的数据太小，那么就需要优化程序或者增加物理内存了。
+				
+Swap开头的行：为交换分区，在物理内存不够时，才进行Swap交换
+				
+详情请参考：Linux free -m 命令详解
+
+EOF;
 
 	}catch(PDOException $e){
 		echo "查询 $ip 失败";
