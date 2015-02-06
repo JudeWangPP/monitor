@@ -252,7 +252,6 @@ else if($_GET["type"]=="exec"){
 		$command = substr($command,0,strlen($command)-1);
 	}
 	$cmds=explode(';',$command); 
-	print_r($cmds);
 	try{
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Shell($ip,$user,$pass,$cmds);
@@ -261,7 +260,7 @@ else if($_GET["type"]=="exec"){
 		echo "在$ip上  执行删除 失败";
 	}
 }
-//下边是mysql主从同步请求接收
+////////////////////////////////////////////////////////下边是mysql主从同步请求接收
 else if($_GET["type"]=="mands"){
 	$ip="192.168.".$_GET["group"].".16";
 	$port=$_GET["port"];
