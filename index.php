@@ -22,10 +22,14 @@
 	<table style = "width:100%;min-width:650px">
 <!-- 		<tr><td><h3>linux机器基础性能检查</h3></td></tr> -->
 		<tr>
-			<td>查询IP: <input id="ip" class= "editbox" type="text" value = "192.168.14.99" maxlength="15" >
+			<td>查询IP: 
+			<input id="ip" class= "editbox" type="text" value = "192.168.14.99" maxlength="15" >
 			<input id="showup" class="but" type="button" onclick = "showUP();"value="指定帐号密码">
 			<input id="Lusername" class = "editboxmini" type="text" value="tester">
-			<input id="Lpassword" class = "editboxmini" type="password" value="nopass.2"></td>
+			<input id="Lpassword" class = "editboxmini" type="password" value="nopass.2">
+			<font size="6px">☜</font><small style="color:red;">修改 “IP”“帐号”“秘密”后，重新选择对应标签页才能生效！</small>
+			</td>
+			
 		</tr>
 		<tr><td>
 			<div class="card">

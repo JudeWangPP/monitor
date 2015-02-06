@@ -213,7 +213,7 @@ else if($_GET["type"]=="diy"){
 	echo "<iframe src='diy.php?ip=$ip&user=$user&pass=$pass' frameborder='0' width='100%' height='450px'></iframe>";
 
 }
-else if($_GET["type"]=="rm"){
+else if($_GET["type"]=="rmdir"){
 	$ip=$_GET["ip"];
 	$user=$_GET["user"];
 	$pass=$_GET["pass"];
@@ -242,7 +242,22 @@ else if($_GET["type"]=="rm"){
 		}
 	}
 }
-
+else if($_GET["type"]=="rmfile"){
+	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
+	$delfile=$_GET["delfile"];
+	$command = "rm -f ".$delfile;
+	try{
+		$opt=new SSH2Opt();
+		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
+		echo "这里应该是js控制，alert后关闭";
+		
+	}catch(PDOException $e){
+		echo "在$ip上  执行删除 失败";
+	}
+}
+//执行多个linux命令，用;隔开
 else if($_GET["type"]=="exec"){
 	$ip=$_GET["ip"];
 	$user=$_GET["user"];
@@ -258,6 +273,26 @@ else if($_GET["type"]=="exec"){
 		echo "<pre>".$var."</pre>";
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
+	}
+}
+//执行单个linux 命令 不做处理
+else if($_GET["type"]=="bigfile"){
+	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	if($user == 'root'){
+		$pass=$_GET["pass"];
+		$command = 'find / -name "*log*" -size +1G -type f -exec ls -lh {} \;|awk \'{ print $9 " --- " $5 }\'';
+		try{
+			$opt=new SSH2Opt();
+			$var = $opt->ssh2Exec($ip,$user,$pass,$command);
+			foreach ($var as $va){
+				echo $va."<a href='man.php?type=rmfile&ip=".$ip."&user=".$user."&pass=".$pass."&delfile=".$va."' target = '_black' >删除</a><br/><br/>";
+			}
+		}catch(PDOException $e){
+			echo "在$ip上  执行删除 失败";
+		}
+	}else{
+		echo "错误：请使用root帐号。";
 	}
 }
 ////////////////////////////////////////////////////////下边是mysql主从同步请求接收
