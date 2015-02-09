@@ -17,13 +17,7 @@
 
 </head>
 <body>
-	<h4>提示：当前操作的机器IP为：<font style="color:red;"><?php echo $ip;?></font>；帐号为：<font style="color:red;"><?php echo $user;?></font>；</h4>
-	<form id = "bigfile" style='display:none;' action="man.php" target="bigfileframe">
-		<input id="type" name="type" type="text" value="bigfile" maxlength="15">
-		<input id="ip" name="ip" type="text" value="<?php echo $ip;?>" maxlength="15">
-		<input id="user" name="user" type="text" value="<?php echo $user;?>">
-		<input id="pass" name="pass" type="password" value="<?php echo $pass;?>">
-	</form>	
+	<h4>提示：当前操作的机器IP为：<font style="color:red;"><?php echo $ip;?></font>；帐号为：<font style="color:red;"><?php echo $user;?></font>；</h4>	
 	<table>
 		<tr>
 			<td>删除指定目录下所有文件:</td>
@@ -37,6 +31,18 @@
 			<td><input id="execMlBut" type="button" value="执行" class="but"></td>
 			<td><font size='1' color='grey'>可同时输入多个关联命令</font>|</td>
 			<td><input id="bigfilebut" type="button" value="查找大文件" class="but"></td>
+			<td><form id = "bigfile" action="man.php" target="bigfileframe">
+					<input id="type" name="type" type="text" value="bigfile" maxlength="15" style='display:none;'>
+					<input id="ip" name="ip" type="text" value="<?php echo $ip;?>" maxlength="15" style='display:none;'>
+					<input id="user" name="user" type="text" value="<?php echo $user;?>" style='display:none;'>
+					<input id="pass" name="pass" type="password" value="<?php echo $pass;?>" style='display:none;'>
+					<input id="size" name="size" type="text" value="1" style="width:30px" maxlength="5">
+					<select id="dw" name="dw">
+						<option>G</option>
+						<option>M</option>
+					</select>
+				</form>
+			</td>
 		</tr>
 	</table>
 	<div>执行结果:</div>
@@ -44,11 +50,13 @@
 		<div style="border:10px solid #FFFFFF" id = "execRes"><?php echo $ip." ".$user?></div>
 	</div>
 	<div id="return2" style='display:none;'>
-		<iframe width = '100%' height = '260' name='bigfileframe' srcdoc="加载中。。。"></iframe>
+		<iframe width = '100%' height = '260' name='bigfileframe' srcdoc="<img src='images/wait.gif' width='60'>加载中。。。"></iframe>
 	</div>
 	
 <script>
 	$(function(){ 
+		//加载时候操作：
+// 		$("#size").show();
 		//执行删除操作
 		$("#delDirBut").click(function(e){
 			$("td[data_tip='delRes']").html("");

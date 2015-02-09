@@ -251,7 +251,13 @@ else if($_GET["type"]=="rmfile"){
 	try{
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
-		echo "这里应该是js控制，alert后关闭";
+		echo <<<EOF
+<script type=text/javascript src="js/jquery-1.8.3.min.js"></script>
+<script>
+// 	alert("文件删除成功！");
+	window.close();
+</script>
+EOF;
 		
 	}catch(PDOException $e){
 		echo "在$ip上  执行删除 失败";
@@ -281,19 +287,36 @@ else if($_GET["type"]=="bigfile"){
 	$user=$_GET["user"];
 	if($user == 'root'){
 		$pass=$_GET["pass"];
-		$command = 'find / -name "*log*" -size +1G -type f -exec ls -lh {} \;|awk \'{ print $9 " --- " $5 }\'';
-		try{
-			$opt=new SSH2Opt();
-			$var = $opt->ssh2Exec($ip,$user,$pass,$command);
-			foreach ($var as $va){
-				echo $va."<a href='man.php?type=rmfile&ip=".$ip."&user=".$user."&pass=".$pass."&delfile=".$va."' target = '_black' >删除</a><br/><br/>";
+		$size=$_GET["size"];
+		if(floor($size) == $size){
+			$dw=$_GET["dw"];
+			$command = 'find / -name "*log*" -size +'.$size.$dw.' -type f -exec ls -lh {} \;|awk \'{ print $9 " --- " $5 }\'';
+			echo "查询结果为：<br/><br/>";
+			try{
+				$opt=new SSH2Opt();
+				$var = $opt->ssh2Exec($ip,$user,$pass,$command);
+				foreach ($var as $va){
+					echo $va."<a href='man.php?type=rmfile&ip=".$ip."&user=".$user."&pass=".$pass."&delfile=".$va."' target = '_black' >删除</a><span style='display:none'>已删除</span><br/><br/>";
+				}
+			}catch(PDOException $e){
+				echo "在$ip上  执行删除 失败";
 			}
-		}catch(PDOException $e){
-			echo "在$ip上  执行删除 失败";
+		}else{
+			echo "错误：文件大小只能是整数";
 		}
 	}else{
-		echo "错误：请使用root帐号。";
+		echo "错误：您使用的帐号权限不足。";
 	}
+	echo <<<EOF
+<script type=text/javascript src="js/jquery-1.8.3.min.js"></script>
+<script>
+	$("a").click(function(e){
+		$(this).fadeOut(5000);
+		$(this).next("span").fadeIn(5000);
+	});		
+</script>
+
+EOF;
 }
 ////////////////////////////////////////////////////////下边是mysql主从同步请求接收
 else if($_GET["type"]=="mands"){

@@ -78,7 +78,7 @@
 		$('#aotofrush').attr('disabled',true);
 		$('#aotofrush').addClass("disabled");
 		$('#ip').trigger('click');
-		setTimeout("aotofrush();",5000)
+		setTimeout("aotofrush();",5000);
 	}
 	function showUP(){
 		$("#showup").hide();
