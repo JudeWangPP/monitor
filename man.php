@@ -50,9 +50,6 @@ else if($_GET["type"]=="memory"){
 		$opt=new SSH2Opt();
 		$var = $opt->ssh2Exec($ip,$user,$pass,$command);
 		$value=explode('    ',$var[2]);
-		if(count($value) == 3){
-			array_push($value, $value[2]);
-		}
 		echo "<table class='imagetable'>";
 		echo "<tr><th>内存使用率</th><td>".round($value[1]/($value[1]+$value[3])*100,2)."%</td>";
 		echo "</table><br/>";
