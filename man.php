@@ -1,4 +1,4 @@
-<?php
+MaxPermSize<?php
 require_once "class.SSH2Opt.php";
 require_once 'classDBOpt.php';
 if($_GET["type"]=="cpu"){
@@ -296,8 +296,6 @@ else if($_GET["type"]=="MaxPermSize"){
 	}
 	$cmds=explode(';',$command);
 	$iparray=explode('|',$ip);
-	// 	var_dump($_GET);
-	// 	var_dump($iparray);
 	foreach ($iparray as $ip){
 		try{
 			$opt=new SSH2Opt();
@@ -312,21 +310,42 @@ else if($_GET["type"]=="MaxPermSize"){
 					array_push($goodret, $returnarrayg);
 				}
 			}
-// 			var_dump($goodret);
-			
 			
 			echo "<pre>";
-			echo "<font color='red'>".$ip."</font>上当前开启的tomcat服务如下：<br/>";
+			echo "<font color='green' size='6'>".$ip."</font>上当前开启的tomcat服务如下：<br/>";
 			echo "<table border='1' width='700' >";
+			if(count($goodret) == 0){
+				echo"<td><font color='red'>该服务器没有查询到tomcat服务</font></td>";
+			}
 			for($i = 0; $i < count($goodret); $i ++){
 				echo "<tr height='40'>";
 				echo"<td>".substr(strstr($goodret[$i][12], 'tomcat_'), 0,11)."</td>";
 				$daxiao = (int)($goodret[$i][6])/1024;
 				echo"<td>".$daxiao." M </td>";
-				echo"<td>".$goodret[$i][15]."</td>";
-				echo"<td>".$goodret[$i][16]."</td>";
-				echo"<td>".$goodret[$i][18]."</td>";
-				echo"<td>".$goodret[$i][19]."</td>";
+				if(strstr($goodret[$i][15], 'Xms')){
+					echo"<td>".$goodret[$i][15]."</td>";
+				}else{
+					echo"<td><font color='red'>没读到 Xms</font></td>";
+				}
+				if(strstr($goodret[$i][16], 'Xmx')){
+					echo"<td>".$goodret[$i][16]."</td>";
+				}else{
+					echo"<td><font color='red'>没读到 Xmx</font></td>";
+				}
+				if(strstr($goodret[$i][18], 'XX:PermSize')){
+					echo"<td>".$goodret[$i][18]."</td>";
+				}else{
+					echo"<td><font color='red'>没读到 XX:PermSize</font></td>";
+				}
+				if(strstr($goodret[$i][19], 'XX:MaxPermSize')){
+					echo"<td>".$goodret[$i][19]."</td>";
+				}else{
+					echo"<td><font color='red'>没读到 XX:MaxPermSize</font></td>";
+				}
+				
+				
+				
+				
 				echo "</tr>";
 			}
 			echo "</table>";
