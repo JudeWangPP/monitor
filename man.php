@@ -284,6 +284,58 @@ else if($_GET["type"]=="exec"){
 		echo "在$ip上  执行删除 失败";
 	}
 }
+//查询tomcat MaxPermSize
+else if($_GET["type"]=="MaxPermSize"){
+	echo '<meta charset="utf-8">';
+	$ip=$_GET["ip"];
+	$user=$_GET["user"];
+	$pass=$_GET["pass"];
+	$command="ps aux|grep tomcat";
+	if(substr($command, -1) == ";"){
+		$command = substr($command,0,strlen($command)-1);
+	}
+	$cmds=explode(';',$command);
+	$iparray=explode('|',$ip);
+	// 	var_dump($_GET);
+	// 	var_dump($iparray);
+	foreach ($iparray as $ip){
+		try{
+			$opt=new SSH2Opt();
+			$var = $opt->ssh2Shell($ip,$user,$pass,$cmds);
+			$returns=explode("\n",$var);
+			
+			$goodret = array();
+			foreach($returns as $return){
+				if(strlen($return) > 500){
+					$returnarray=explode(" ",$return);
+					$returnarrayg = array_merge(array_unique($returnarray));
+					array_push($goodret, $returnarrayg);
+				}
+			}
+// 			var_dump($goodret);
+			
+			
+			echo "<pre>";
+			echo "<font color='red'>".$ip."</font>上当前开启的tomcat服务如下：<br/>";
+			echo "<table border='1' width='700' >";
+			for($i = 0; $i < count($goodret); $i ++){
+				echo "<tr height='40'>";
+				echo"<td>".substr(strstr($goodret[$i][12], 'tomcat_'), 0,11)."</td>";
+				$daxiao = (int)($goodret[$i][6])/1024;
+				echo"<td>".$daxiao." M </td>";
+				echo"<td>".$goodret[$i][15]."</td>";
+				echo"<td>".$goodret[$i][16]."</td>";
+				echo"<td>".$goodret[$i][18]."</td>";
+				echo"<td>".$goodret[$i][19]."</td>";
+				echo "</tr>";
+			}
+			echo "</table>";
+		}catch(PDOException $e){
+			echo "在$ip上  执行删除 失败";
+		}
+	}
+
+}
 //执行单个linux 命令 不做处理
 else if($_GET["type"]=="bigfile"){
 	$ip=$_GET["ip"];

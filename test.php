@@ -1,7 +1,7 @@
 <?php
 
-echo('\n\\1');
-echo ("<br/>");
-echo("\n\1");
-print(1);
+/*如手册上的举例*/ 
+$email = 'user@example.com.com.com.com'; 
+$domain = strstr($email, 'co'); 
+var_dump($domain) ; // prints @example.com 
 ?>
